@@ -1,0 +1,136 @@
+﻿@model Exam_Management.Models.User
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Login</title>
+    <style>
+        body {
+            color: #fff;
+        }
+
+        .login-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-form {
+            width: 350px;
+            background-color: rgba(200, 200, 200, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+            .login-form h1 {
+                text-align: center;
+                color: #fff;
+                margin-bottom: 30px;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+        }
+
+
+        .btnsGrp {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            width: 45%;
+        }
+
+        .btn-login {
+            width: 100%;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-register {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="login-form">
+                <h1 class="text-dark">Login</h1>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label text-dark" })<span class="text-danger mx-1">*</span>
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PasswordHash, htmlAttributes: new { @class = "control-label text-dark" })
+                    <span class="text-danger mx-1">*</span>
+                    @Html.EditorFor(model => model.PasswordHash, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PasswordHash, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group btnsGrp">
+                    @Html.ActionLink("Register", "Create", null, new { @class = "btn btn-dark btn-register mr-3" })
+                    <button type="submit" class="btn btn-login text-white">Login</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    @*    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>*@
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (TempData.ContainsKey("LoginMsg"))
+    {
+        if ((bool)TempData["LoginMsg"] == false)
+        {
+            <script>
+                Swal.fire({
+                    position: "top-end",
+                    icon: "failure",
+                    title: "Please Enter Valid Credentials",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+        }
+    }
+    @if (TempData.ContainsKey("LogoutMsg"))
+    {
+        if ((bool)TempData["LogoutMsg"] == true)
+        {
+            <script>
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Logged out Successfully",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+        }
+    }
+</body>
+</html>
+

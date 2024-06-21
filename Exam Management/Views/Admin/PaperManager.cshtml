@@ -1,0 +1,119 @@
+﻿@model IEnumerable<Exam_Management.Models.Paper>
+
+@{
+    ViewBag.Title = "PaperManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Papers</h2>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                        <p class="card-text">Creation Date: @Html.DisplayFor(modelItem => item.CreationDate)</p>
+                        <p class="card-text">Status: @Html.DisplayFor(modelItem => item.Status)</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group">
+                            @{
+                                ViewBag.PaperId = @item.Id;
+                            }
+                            @Html.ActionLink("Add Question", "CreateQuestion", new { id = item.Id }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("View", "ShowPaper", new { id = item.Id }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Edit", "EditPaper", new { id = item.Id }, new { @class = "btn btn-success" })
+                            @Html.ActionLink("Delete", "DeletePaper", new { id = item.Id }, new { @class = "btn btn-dark" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container mt-3">
+    @Html.ActionLink("Back", "Dashboard", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Create New Paper", "CreatePaper", null, new { @class = "btn btn-dark" })
+</div>
+
+@if (TempData.ContainsKey("PaperCreateMsg") && (bool)TempData["PaperCreateMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Paper Created Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}
+@if (TempData.ContainsKey("PaperUpdateMsg") && (bool)TempData["PaperUpdateMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Paper Updated Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}
+@if (TempData.ContainsKey("PaperDeleteMsg") && (bool)TempData["PaperDeleteMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Paper Deleted Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}
+
+
+@if (TempData.ContainsKey("QuesCreateMsg") && (bool)TempData["QuesCreateMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Question Created Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}
+@if (TempData.ContainsKey("QuesUpdateMsg") && (bool)TempData["QuesUpdateMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Question Updated Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}
+@if (TempData.ContainsKey("QuesDeleteMsg") && (bool)TempData["QuesDeleteMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Question Deleted Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}

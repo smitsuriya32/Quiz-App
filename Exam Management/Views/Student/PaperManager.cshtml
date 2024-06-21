@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Exam_Management.Models.Paper>
+
+@{
+    ViewBag.Title = "PaperManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Papers</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("View", "ShowPaper", new { id = item.Id }, new { @class = "btn btn-danger" })
+                @*@Html.ActionLink("Check Results", "ResultManager", new { id = item.Id }, new { @class = "btn btn-dark" })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink("Back", "Dashboard", null, new { @class = "btn btn-primary" })

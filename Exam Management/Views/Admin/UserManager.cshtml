@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Exam_Management.Models.User>
+
+@{
+    ViewBag.Title = "UserManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Users</h2>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Username)</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Email: @Html.DisplayFor(modelItem => item.Email)</p>
+                        <p class="card-text">Role: @Html.DisplayFor(modelItem => item.Role)</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container mt-3">
+    @Html.ActionLink("Back", "Dashboard", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Create New User", "Create", null, new { @class = "btn btn-dark" })
+</div>
+@if (TempData.ContainsKey("UserCreateMsg") && (bool)TempData["UserCreateMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "User Created Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}
+@if (TempData.ContainsKey("UserUpdatedMsg") && (bool)TempData["UserUpdatedMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "User Updated Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}
+@if (TempData.ContainsKey("UserDeletedMsg") && (bool)TempData["UserDeletedMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "User Deleted Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}

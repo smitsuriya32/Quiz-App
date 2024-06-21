@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ExamManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Answers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperId" Type="int" />
+          <Property Name="AttempterId" Type="int" />
+          <Property Name="QuestionId" Type="int" />
+          <Property Name="CorrectAnswer" Type="nvarchar" MaxLength="100" />
+          <Property Name="AttemptedAnswer" Type="nvarchar" MaxLength="100" />
+          <Property Name="AttemptDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Approval">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperID" Type="int" />
+          <Property Name="ApproverID" Type="int" />
+          <Property Name="ApprovalDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Papers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperId" Type="int" Nullable="false" />
+          <Property Name="QuestionText" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="OptionA" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OptionB" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OptionC" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OptionD" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CorrectAnswer" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Answers__Attempt__5DCAEF64">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Answers" Type="Self.Answers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answers">
+              <PropertyRef Name="AttempterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answers__PaperId__5CD6CB2B">
+          <End Role="Papers" Type="Self.Papers" Multiplicity="0..1" />
+          <End Role="Answers" Type="Self.Answers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Papers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answers">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answers__Questio__5EBF139D">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />
+          <End Role="Answers" Type="Self.Answers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answers">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Approval__Approv__3F466844">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Approval" Type="Self.Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Approval">
+              <PropertyRef Name="ApproverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Approval__PaperI__3E52440B">
+          <End Role="Papers" Type="Self.Papers" Multiplicity="0..1" />
+          <End Role="Approval" Type="Self.Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Papers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Approval">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Papers__CreatedB__47DBAE45">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Papers" Type="Self.Papers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Papers">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Questions__Paper__3B75D760">
+          <End Role="Papers" Type="Self.Papers" Multiplicity="1" />
+          <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Papers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamManagementModelStoreContainer">
+          <EntitySet Name="Answers" EntityType="Self.Answers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Approval" EntityType="Self.Approval" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Papers" EntityType="Self.Papers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Answers__Attempt__5DCAEF64" Association="Self.FK__Answers__Attempt__5DCAEF64">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Answers" EntitySet="Answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answers__PaperId__5CD6CB2B" Association="Self.FK__Answers__PaperId__5CD6CB2B">
+            <End Role="Papers" EntitySet="Papers" />
+            <End Role="Answers" EntitySet="Answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answers__Questio__5EBF139D" Association="Self.FK__Answers__Questio__5EBF139D">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="Answers" EntitySet="Answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Approval__Approv__3F466844" Association="Self.FK__Approval__Approv__3F466844">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Approval" EntitySet="Approval" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Approval__PaperI__3E52440B" Association="Self.FK__Approval__PaperI__3E52440B">
+            <End Role="Papers" EntitySet="Papers" />
+            <End Role="Approval" EntitySet="Approval" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Papers__CreatedB__47DBAE45" Association="Self.FK__Papers__CreatedB__47DBAE45">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Papers" EntitySet="Papers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Questions__Paper__3B75D760" Association="Self.FK__Questions__Paper__3B75D760">
+            <End Role="Papers" EntitySet="Papers" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExamManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Approval">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaperID" Type="Int32" />
+          <Property Name="ApproverID" Type="Int32" />
+          <Property Name="ApprovalDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Approval__Approv__3F466844" FromRole="Approval" ToRole="Users" />
+          <NavigationProperty Name="Paper" Relationship="Self.FK__Approval__PaperI__3E52440B" FromRole="Approval" ToRole="Papers" />
+        </EntityType>
+        <EntityType Name="Paper">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Approvals" Relationship="Self.FK__Approval__PaperI__3E52440B" FromRole="Papers" ToRole="Approval" />
+          <NavigationProperty Name="Questions" Relationship="Self.FK__Questions__Paper__3B75D760" FromRole="Papers" ToRole="Questions" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="ExamManagementModel.FK__Papers__CreatedB__47DBAE45" FromRole="Paper" ToRole="User" />
+          <NavigationProperty Name="Answers" Relationship="ExamManagementModel.FK__Answers__PaperId__5CD6CB2B" FromRole="Paper" ToRole="Answer" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaperId" Type="Int32" Nullable="false" />
+          <Property Name="QuestionText" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OptionA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OptionB" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OptionC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OptionD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CorrectAnswer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Paper" Relationship="Self.FK__Questions__Paper__3B75D760" FromRole="Questions" ToRole="Papers" />
+          <NavigationProperty Name="Answers" Relationship="ExamManagementModel.FK__Answers__Questio__5EBF139D" FromRole="Question" ToRole="Answer" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Approvals" Relationship="Self.FK__Approval__Approv__3F466844" FromRole="Users" ToRole="Approval" />
+          <NavigationProperty Name="Papers" Relationship="ExamManagementModel.FK__Papers__CreatedB__47DBAE45" FromRole="User" ToRole="Paper" />
+          <NavigationProperty Name="Answers" Relationship="ExamManagementModel.FK__Answers__Attempt__5DCAEF64" FromRole="User" ToRole="Answer" />
+        </EntityType>
+        <Association Name="FK__Approval__Approv__3F466844">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Approval" Type="Self.Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Approval">
+              <PropertyRef Name="ApproverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Approval__PaperI__3E52440B">
+          <End Role="Papers" Type="Self.Paper" Multiplicity="0..1" />
+          <End Role="Approval" Type="Self.Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Papers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Approval">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Questions__Paper__3B75D760">
+          <End Role="Papers" Type="Self.Paper" Multiplicity="1" />
+          <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Papers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Approvals" EntityType="Self.Approval" />
+          <EntitySet Name="Papers" EntityType="Self.Paper" />
+          <EntitySet Name="Questions" EntityType="Self.Question" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__Approval__Approv__3F466844" Association="Self.FK__Approval__Approv__3F466844">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Approval" EntitySet="Approvals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Approval__PaperI__3E52440B" Association="Self.FK__Approval__PaperI__3E52440B">
+            <End Role="Papers" EntitySet="Papers" />
+            <End Role="Approval" EntitySet="Approvals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Questions__Paper__3B75D760" Association="Self.FK__Questions__Paper__3B75D760">
+            <End Role="Papers" EntitySet="Papers" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Papers__CreatedB__47DBAE45" Association="ExamManagementModel.FK__Papers__CreatedB__47DBAE45">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Paper" EntitySet="Papers" />
+          </AssociationSet>
+          <EntitySet Name="Answers" EntityType="ExamManagementModel.Answer" />
+          <AssociationSet Name="FK__Answers__Attempt__5DCAEF64" Association="ExamManagementModel.FK__Answers__Attempt__5DCAEF64">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Answer" EntitySet="Answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answers__PaperId__5CD6CB2B" Association="ExamManagementModel.FK__Answers__PaperId__5CD6CB2B">
+            <End Role="Paper" EntitySet="Papers" />
+            <End Role="Answer" EntitySet="Answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answers__Questio__5EBF139D" Association="ExamManagementModel.FK__Answers__Questio__5EBF139D">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="Answer" EntitySet="Answers" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK__Papers__CreatedB__47DBAE45">
+          <End Type="ExamManagementModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="ExamManagementModel.Paper" Role="Paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paper">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaperId" Type="Int32" />
+          <Property Name="AttempterId" Type="Int32" />
+          <Property Name="QuestionId" Type="Int32" />
+          <Property Name="CorrectAnswer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AttemptedAnswer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AttemptDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="ExamManagementModel.FK__Answers__Attempt__5DCAEF64" FromRole="Answer" ToRole="User" />
+          <NavigationProperty Name="Paper" Relationship="ExamManagementModel.FK__Answers__PaperId__5CD6CB2B" FromRole="Answer" ToRole="Paper" />
+          <NavigationProperty Name="Question" Relationship="ExamManagementModel.FK__Answers__Questio__5EBF139D" FromRole="Answer" ToRole="Question" />
+        </EntityType>
+        <Association Name="FK__Answers__Attempt__5DCAEF64">
+          <End Type="ExamManagementModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="ExamManagementModel.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="AttempterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answers__PaperId__5CD6CB2B">
+          <End Type="ExamManagementModel.Paper" Role="Paper" Multiplicity="0..1" />
+          <End Type="ExamManagementModel.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answers__Questio__5EBF139D">
+          <End Type="ExamManagementModel.Question" Role="Question" Multiplicity="0..1" />
+          <End Type="ExamManagementModel.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExamManagementModelStoreContainer" CdmEntityContainer="ExamManagementEntities">
+          <EntitySetMapping Name="Approvals">
+            <EntityTypeMapping TypeName="ExamManagementModel.Approval">
+              <MappingFragment StoreEntitySet="Approval">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
+                <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Papers">
+            <EntityTypeMapping TypeName="ExamManagementModel.Paper">
+              <MappingFragment StoreEntitySet="Papers">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="ExamManagementModel.Question">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PaperId" ColumnName="PaperId" />
+                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+                <ScalarProperty Name="OptionA" ColumnName="OptionA" />
+                <ScalarProperty Name="OptionB" ColumnName="OptionB" />
+                <ScalarProperty Name="OptionC" ColumnName="OptionC" />
+                <ScalarProperty Name="OptionD" ColumnName="OptionD" />
+                <ScalarProperty Name="CorrectAnswer" ColumnName="CorrectAnswer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ExamManagementModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Answers">
+            <EntityTypeMapping TypeName="ExamManagementModel.Answer">
+              <MappingFragment StoreEntitySet="Answers">
+                <ScalarProperty Name="AttemptDate" ColumnName="AttemptDate" />
+                <ScalarProperty Name="AttemptedAnswer" ColumnName="AttemptedAnswer" />
+                <ScalarProperty Name="CorrectAnswer" ColumnName="CorrectAnswer" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="AttempterId" ColumnName="AttempterId" />
+                <ScalarProperty Name="PaperId" ColumnName="PaperId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

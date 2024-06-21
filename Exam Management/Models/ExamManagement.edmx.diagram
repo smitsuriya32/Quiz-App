@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="14dbaa86d4fd463bb411302dc1191749" Name="Diagram1">
+        <EntityTypeShape EntityType="ExamManagementModel.Approval" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamManagementModel.Paper" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamManagementModel.Question" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamManagementModel.User" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <AssociationConnector Association="ExamManagementModel.FK__Approval__Approv__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamManagementModel.FK__Approval__PaperI__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamManagementModel.FK__Questions__Paper__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamManagementModel.FK__Papers__CreatedB__47DBAE45" />
+        <EntityTypeShape EntityType="ExamManagementModel.Answer" Width="1.5" PointX="5.25" PointY="4.625" />
+        <AssociationConnector Association="ExamManagementModel.FK__Answers__Attempt__5DCAEF64" />
+        <AssociationConnector Association="ExamManagementModel.FK__Answers__PaperId__5CD6CB2B" />
+        <AssociationConnector Association="ExamManagementModel.FK__Answers__Questio__5EBF139D" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

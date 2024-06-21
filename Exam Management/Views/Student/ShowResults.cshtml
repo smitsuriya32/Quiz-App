@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Exam_Management.Models.Answer>
+
+@{
+    ViewBag.Title = "ShowResults";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Answers Submitted by You</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Username)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Paper.Title)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Question.QuestionText)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.AttemptedAnswer)
+        </th>
+
+ @*       <th>
+            @Html.DisplayNameFor(model => model.CorrectAnswer)
+        </th>*@
+
+        <th>
+            @Html.DisplayNameFor(model => model.AttemptDate)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paper.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question.QuestionText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttemptedAnswer)
+            </td>
+@*            <td>
+                @Html.DisplayFor(modelItem => item.CorrectAnswer)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.AttemptDate)
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink("Back", "PaperManager", "Student", null, new { @class = "btn btn-dark" })
+@if (TempData.ContainsKey("PaperSubmitMsg") && (bool)TempData["PaperSubmitMsg"] == true)
+{
+    <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Paper Submitted Successfully",
+                showConfirmButton: false,
+                timer: 1500
+            });
+    </script>
+}

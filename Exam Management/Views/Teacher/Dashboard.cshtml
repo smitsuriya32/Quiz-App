@@ -1,0 +1,23 @@
+﻿@model Exam_Management.Models.Paper
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Teacher Dashboard</h1>
+
+<abbr title="Manage your papers">@Html.ActionLink("Manage Papers", "PaperManager", null, new { @class = "btn btn-dark" })</abbr>
+@Html.ActionLink("See Answers", "ShowResults", null, new { @class = "btn btn-dark" })
+@if (TempData.ContainsKey("LoginMsg") && (bool)TempData["LoginMsg"] == true)
+{
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Login Successfull",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}
